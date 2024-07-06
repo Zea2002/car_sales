@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<div class="row mt-4">
+    <div class="col-md-6">
+        <h1>Welcome to Car Sales House</h1>
+        <p>A car house, often called a garage or carport, is a vital structure for sheltering vehicles from the elements and theft. It provides storage, protection, and maintenance space, ensuring vehicles remain safe and functional. Car houses can range from simple open structures to fully enclosed spaces with security features, enhancing vehicle longevity and usability.</p>
+    </div>
+    <div class="col-md-6">
+        <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="{% static 'home.jpeg' %}" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="{% static 'toyota.jpeg' %}" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="{% static 'toyota..jpeg' %}" class="d-block w-100" alt="...">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+    </div>
+</div>
+<div class="row mt-4">
+    <h2>Car Brands</h2>
+    <ul>
+        {% for brand in brands %}
+            <li><a href="?brand={{ brand.id }}">{{ brand.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="row mt-4">
+    <h2 class="col-12">Available Cars</h2>
+    
+    {% if cars %}
+    <h1>Number of Result: {{ car_count }}</h1>
+        {% for car in cars %}
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ car.image.url }}" class="card-img-top" alt="{{ car.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ car.title }}</h5>
+                    <p class="card-text">{{ car.description }}</p>
+                    <p class="card-text"><strong>${{ car.price }}</strong></p>
+                    <a href="{% url 'car_detail' car.id %}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Not available at this moment.</p>
+    {% endif %}
+</div>
+{% endblock %}

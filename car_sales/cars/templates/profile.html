@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<h1>Profile</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary">Update Profile</button>
+</form>
+<h2 class="mt-4">Order History</h2>
+<ul>
+    {% for order in request.user.order_set.all %}
+        <li>{{ order.car.title }} - {{ order.ordered_at }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

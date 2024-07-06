@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1>Order History</h1>
+<ul>
+    {% for order in orders %}
+        <li>{{ order.car.title }} - {{ order.ordered_at }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

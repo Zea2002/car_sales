@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <img src="{{ car.image.url }}" class="img-fluid" alt="{{ car.title }}">
+    </div>
+    <div class="col-md-4">
+        <h1>{{ car.title }}</h1>
+        <p>{{ car.description }}</p>
+        <p><strong>Price: ${{ car.price }}</strong></p>
+        <p><strong>Quantity: {{ car.quantity }}</strong></p>
+        <p><strong>Brand: {{ car.brand.name }}</strong></p>
+        {% if user.is_authenticated %}
+        <form action="{% url 'buy_car' car.pk %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Buy Now</button>
+        </form>
+        
+        {% endif %}
+    </div>
+</div>
+<div class="row mt-4">
+    <h2>Comments</h2>
+    <ul>
+        {% for comment in car.comments.all %}
+            <li><strong>{{ comment.name }}:</strong> {{ comment.comment }}</li>
+        {% endfor %}
+    </ul>
+    <form action="{% url 'add-comment' car.id %}" method="POST">
+        {% csrf_token %}
+        {{ comment_form|crispy }}
+        <button type="submit" class="btn btn-primary">Add Comment</button>
+    </form>
+</div>
+{% endblock %}
